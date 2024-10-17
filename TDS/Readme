@@ -1,1 +1,30 @@
-This is the file for TDS
+
+Introducing the TDS Meter:
+                   
+                   A TDS meter measures the number of total dissolved solids like salts, minerals, and metals in the water. 
+                   As the number of dissolved solids in the water increases, the conductivity of the water increases, 
+                   and that allow us to calculate the total dissolved solids in ppm (mg/L).
+
+      TDS Meter:
+    
+               Input Voltage: DC 3.3 ~ 5.5V
+               Output Voltage: 0 ~ 2.3V
+               Working Current: 3 ~ 6mA
+               TDS Measurement Range: 0 ~ 1000ppm
+               TDS Measurement Accuracy: ± 10% F.S. (25 ℃)
+               Module Interface: XH2.54-3P
+               Electrode Interface: XH2.54-2P
+
+      TDS Probe: 
+             
+               Number of Needle: 2
+               Total Length: 60cm
+               Connection Interface: XH2.54-2P
+               Color: White
+               Waterproof Probe
+             
+                compensationCoefficient = 1.0+0.02*(temperature-25.0)
+                  
+                compensationVoltage=averageVoltage/compensationCoefficient  
+
+                tdsValue=(133.42*compensationVoltage*compensationVoltage*compensationVoltage - 255.86*compensationVoltage*compensationVoltage + 857.39*compensationVoltage)*0.5
