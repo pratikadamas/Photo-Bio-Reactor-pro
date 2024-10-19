@@ -7,12 +7,17 @@
 #define Fan_pin 15
 #define LED_pin 14
 #define size 30
+
+// TDS SENSOR
+
 int analogbuffer[size];
 int analohtempbuffer[size];
 int  analog_turbidity[size];
 int index=0;
 int temp=25;
 float averagevoltage=0;
+
+
 
   float Tdsvalue(float x){
 
@@ -29,7 +34,7 @@ float averagevoltage=0;
         return 1.0+0.02*(temperature-25.0);
   }
 
- float  avg_voltage(int arr[],size)
+ float  average(int arr[],size)
  {
   int sum=0,i;
   for(i=0;i<size;i++)
@@ -49,7 +54,7 @@ float averagevoltage=0;
     analogbuffer[index]=analogRead(Tds_pin);
     delay(500);
   }
-  float avg_volt=avg_voltage(analogbuffer,size);
+  float avg_volt=average(analogbuffer,size);
 
   averagevoltage = avg_volt*Vref/Adc_max;
 
@@ -82,13 +87,38 @@ int i;
   analog_turbidity[i]=analogRead(Tds_pin);
   delay(500);
  }
- float avg_volt=avg_voltage(analog_turbidity,size);
+ float avg_volt=average(analog_turbidity,size);
     float Averagevoltage = avg_volt*Vref/Adc_max;
     float turb_value=turbidity_value(Averagevoltage);
     return turb_value;
 
 
   }
+
+
+    //PH SENSOR
+
+ int analogph_buffer[size];
+  float ph_sensor;
+  float ph_voltage;
+  float ph_value;
+
+   float phread(){
+    int i;
+    for( i=0;i<size;i++){
+        analogph_buffer[i]=analogRead(Ph_pin);
+        delay(500);
+
+    }
+        ph_sensor=average(analogph_buffer,size);
+
+        ph_voltage=ph_sensor*(3.3/4096.0);
+
+        ph_value=3.3*ph_voltage;
+
+         return ph_value;
+    
+   }
 
 
 
@@ -115,6 +145,11 @@ void loop() {
    float turb=Turbidity();
    serial.println("TURBIDITY VALUE  ");
   serial.print(turb);
+  delay(1000);
+
+  float PH_value=phread();
+  serial.println("PH VALUE ");
+serial.print(PH_value);
 
 
 
