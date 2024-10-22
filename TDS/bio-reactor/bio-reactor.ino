@@ -1,19 +1,20 @@
 #define Temp_pin 26
-#define Tds_pin 27
-#define Turb_pin 28
-#define Ph_pin 29
+#define Tds_pin 12
+#define Turb_pin 32
+#define Ph_pin 14
 #define Vref 3.3
 #define Adc_max 4096
-#define Fan_pin 15
+ #define Fan_pin 15
 #define LED_pin 14
-#define size 30
-
+const int size =30;
+ float temperature=30.2;
+ //int index=0;
 // TDS SENSOR
 
 int analogbuffer[size];
 int analohtempbuffer[size];
 int  analog_turbidity[size];
-int index=0;
+//int index=0;
 int temp=25;
 float averagevoltage=0;
 
@@ -31,10 +32,10 @@ float averagevoltage=0;
 
  float compensationCoefficient()
   {
-        return 1.0+0.02*(temperature-25.0);
+        return ( 1.0+0.02*(temperature-25.0));
   }
 
- float  average(int arr[],size)
+ float average(int arr[], int size)
  {
   int sum=0,i;
   for(i=0;i<size;i++)
@@ -49,9 +50,9 @@ float averagevoltage=0;
 
    float tdsread()
   {
-  for(index=0;index<size;index++)
+  for(int i=0;i<size;i++)
   {
-    analogbuffer[index]=analogRead(Tds_pin);
+    analogbuffer[i]=analogRead(Tds_pin);
     delay(500);
   }
   float avg_volt=average(analogbuffer,size);
@@ -87,10 +88,9 @@ int i;
   analog_turbidity[i]=analogRead(Tds_pin);
   delay(500);
  }
- float avg_volt=average(analog_turbidity,size);
-    float Averagevoltage = avg_volt*Vref/Adc_max;
-    float turb_value=turbidity_value(Averagevoltage);
-    return turb_value;
+    for(i=0;i<size;i++){
+      Serial.println(analog_turbidity[i]);
+    }
 
 
   }
@@ -124,32 +124,28 @@ int i;
 
 void setup() {
   // put your setup code here, to run once:
-    serial.begin(115200);
+    Serial.begin(115200);
     pinMode(Temp_pin,INPUT);
     pinMode(Tds_pin,INPUT);
     pinMode(Turb_pin,INPUT);
     pinMode(Ph_pin,INPUT);
-    pinMode(Fan_pin,OUTPUT);
-    pinMode(LED_pin,OUTPUT);
-    // Turn off the LED initially
-    digitalWrite(LED_pin, LOW);
-    
+      
 }
 
-void loop() {
+void loop(){
   // put your main code here, to run repeatedly:
-  float tds=tdsread();
-  serial.println("TDS VALUE  ");
-  serial.print(tds);
+ // float tds=tdsread();
+ // serial.println("TDS VALUE  ");
+  //serial.print(tds);
 
    float turb=Turbidity();
-   serial.println("TURBIDITY VALUE  ");
-  serial.print(turb);
+   Serial.println("TURBIDITY VALUE  ");
+  Serial.print(turb);
   delay(1000);
 
-  float PH_value=phread();
-  serial.println("PH VALUE ");
-serial.print(PH_value);
+ // float PH_value=phread();
+ // serial.println("PH VALUE ");
+ //serial.print(PH_value);
 
 
 
