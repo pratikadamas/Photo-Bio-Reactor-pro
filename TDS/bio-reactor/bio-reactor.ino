@@ -134,18 +134,18 @@ void setup() {
 
 void loop(){
   // put your main code here, to run repeatedly:
- // float tds=tdsread();
- // serial.println("TDS VALUE  ");
-  //serial.print(tds);
+ float tds=tdsread();
+ Serial.println("TDS VALUE  ");
+  Serial.print(tds);
 
    float turb=Turbidity();
    Serial.println("TURBIDITY VALUE  ");
   Serial.print(turb);
   delay(1000);
 
- // float PH_value=phread();
- // serial.println("PH VALUE ");
- //serial.print(PH_value);
+ float PH_value=phread();
+ Serial.println("PH VALUE ");
+ Serial.print(PH_value);
 
 
 
