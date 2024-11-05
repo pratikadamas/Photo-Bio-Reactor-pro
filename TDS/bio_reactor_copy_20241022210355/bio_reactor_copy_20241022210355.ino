@@ -5,8 +5,7 @@
 #define Vref 3.3
 #define Adc_max 4096
  #define Fan_pin 15
-#define LED_pin 16
-#define pump_pin 17
+#define LED_pin 14
 const int size =30;
  float temperature=30.2;
  //int index=0;
@@ -79,21 +78,21 @@ float averagevoltage=0;
 float turbidity_value( float x)
     {
 
-    return 1888.571-6624.509*x+8560.21*x*x-3824.162*x*x*x;
-    
-       }
+    return 0.00185*x*x-3.22*x+1410.031;
+   }
 
 
   float Turbidity(){
 int i;
  for(i=0;i<size;i++){
-  analog_turbidity[i]=analogRead(Turb_pin);
+  analog_turbidity[i]=analogRead(Tds_pin);
   delay(500);
  }
-    float ave_turb= average(analog_turbidity,size);
-    float turb=turbidity_value( ave_turb);
-      
-     return turb;
+    for(i=0;i<size;i++){
+      Serial.println(analog_turbidity[i]);
+    }
+
+
   }
 
 
@@ -125,22 +124,18 @@ int i;
 
 void setup() {
   // put your setup code here, to run once:
-
     Serial.begin(115200);
     pinMode(Temp_pin,INPUT);
     pinMode(Tds_pin,INPUT);
     pinMode(Turb_pin,INPUT);
     pinMode(Ph_pin,INPUT);
-
-    pinMode(pump_pin, OUTPUT);
-    digitalWrite(pump_pin, LOW);
       
 }
 
 void loop(){
   // put your main code here, to run repeatedly:
- float tds=tdsread();
- Serial.println("TDS VALUE  ");
+  float tds=tdsread();
+  Serial.println("TDS VALUE  ");
   Serial.print(tds);
 
    float turb=Turbidity();
@@ -148,8 +143,8 @@ void loop(){
   Serial.print(turb);
   delay(1000);
 
- float PH_value=phread();
- Serial.println("PH VALUE ");
+  float PH_value=phread();
+  Serial.println("PH VALUE ");
  Serial.print(PH_value);
 
 
