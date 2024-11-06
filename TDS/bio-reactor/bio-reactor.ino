@@ -7,6 +7,7 @@
  #define Fan_pin 15
 #define LED_pin 16
 #define pump_pin 17
+#define turb_thres 0
 const int size =30;
  float temperature=30.2;
  //int index=0;
